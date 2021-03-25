@@ -32,13 +32,13 @@ def clean_data(df):
                                                drop_first=True, dummy_na=False)], axis=1)
 
     # drop irrelevant columns
-    cleaned_df = cleaned_df.drop(columns=['pdays'])
+    '''cleaned_df = cleaned_df.drop(columns=['pdays'])
 
     # impute noisy columns
     cleaned_df['campaign_cleaned'] = df.apply(lambda row: get_correct_values(row, 'campaign', 34, cleaned_df), axis=1)
     cleaned_df['previous_cleaned'] = df.apply(lambda row: get_correct_values(row, 'previous', 34, cleaned_df), axis=1)
 
-    cleaned_df = cleaned_df.drop(columns=['campaign', 'previous'])
+    cleaned_df = cleaned_df.drop(columns=['campaign', 'previous']) '''
     return cleaned_df
 
 def load_cleanse_data():
@@ -48,9 +48,7 @@ def load_cleanse_data():
     output = preprocessed_data['deposit_bool']
     scaler = StandardScaler()
     scaled_features = scaler.fit_transform(features)
-    print(scaled_features.shape)
-    print(output.shape)
-
+    scaled_features = pd.DataFrame(scaled_features,columns = features.columns)
     return {
         'features': scaled_features,
         'labels': output
