@@ -5,10 +5,9 @@ from pandas.plotting import scatter_matrix
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, davies_bouldin_score, adjusted_rand_score
 from kneed import KneeLocator
-from yellowbrick.cluster import InterclusterDistance
+from yellowbrick.cluster import InterclusterDistance, KElbowVisualizer, SilhouetteVisualizer
 
-
-def estimate_k(data, label, distance_metric):
+def estimate_k(data, label, distance_metric, useIntercluster):
     kmeans_kwargs = {
         "random_state": 42,
     }
@@ -43,6 +42,14 @@ def estimate_k(data, label, distance_metric):
     plt.ylabel('Silhoute Coefficients')
     plt.savefig('../plots/'+label+"_Silhouette Coefficient")
     plt.clf()
+
+    if useIntercluster:
+        for k in range(2, 31):
+            model = KMeans(k)
+            visualizer = InterclusterDistance(model)
+            visualizer.fit(data['features'])
+            visualizer.show()
+            plt.clf()
 
     db_score = []
     for k in range(2, 31):
