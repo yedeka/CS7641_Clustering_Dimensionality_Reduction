@@ -5,7 +5,7 @@ from pandas.plotting import scatter_matrix
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, davies_bouldin_score, adjusted_rand_score
 from kneed import KneeLocator
-from yellowbrick.cluster import InterclusterDistance, KElbowVisualizer, SilhouetteVisualizer
+from yellowbrick.cluster import InterclusterDistance
 
 def estimate_k(data, label, distance_metric, useIntercluster):
     kmeans_kwargs = {
@@ -44,7 +44,7 @@ def estimate_k(data, label, distance_metric, useIntercluster):
     plt.clf()
 
     if useIntercluster:
-        for k in range(2, 31):
+        for k in range(2, 10):
             model = KMeans(k)
             visualizer = InterclusterDistance(model)
             visualizer.fit(data['features'])
@@ -78,23 +78,3 @@ def apply_kmeans(data, k):
     visualizer = InterclusterDistance(model)
     visualizer.fit(data['features'])  # Fit the data to the visualizer
     visualizer.show()
-
-
-def perform_kmeans(k, data):
-    feat = data['features']
-    kmeans = KMeans(n_clusters=k)
-    label = kmeans.fit_predict(feat)
-    # Getting the Centroids
-    centroids = kmeans.cluster_centers_
-    u_labels = np.unique(label)
-    kmeans = pd.DataFrame(label)
-    feat.insert((feat.shape[1]), 'kmeans', kmeans)
-
-    scatter_matrix(feat, alpha=0.2, figsize=(6, 6), diagonal='kde')
-
-    '''for i in u_labels:
-        plt.scatter(features[label == i], features[label == i], label=i)
-    plt.scatter(centroids[:, 0], centroids[:, 1], s=80, color='k')
-    plt.scatter(features, label)
-    plt.legend()
-    plt.show()'''

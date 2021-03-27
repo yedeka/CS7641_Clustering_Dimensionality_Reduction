@@ -18,15 +18,26 @@ def deposit_clustering():
 
 def income_clustering():
     data = loadData()
-    estimate_k(data, 'income','euclidean', True)
+    estimate_k(data, 'income','euclidean', False)
     # We will validate k obtained from elbow/Silhoute_score/Davies_Bouldin score
     elbow_rand_score = validate_k(10, data)
-    '''print('income_elbow_rand_score', elbow_rand_score)
+    print('income_elbow_rand_score', elbow_rand_score)
     sc_rand_score = validate_k(8, data)
     print('income_silhoute_rand_score', sc_rand_score)
     db_rand_score = validate_k(8, data)
     print('income_db_rand_score', db_rand_score)
-    apply_kmeans(data, 8)'''
+    icd_rand_score = validate_k(2, data)
+    print('income_icd_rand_score_2', icd_rand_score)
+    icd_rand_score = validate_k(3, data)
+    print('income_icd_rand_score_3', icd_rand_score)
+    icd_rand_score = validate_k(4, data)
+    print('income_icd_rand_score_4', icd_rand_score)
+    icd_rand_score = validate_k(5, data)
+    print('income_icd_rand_score_5', icd_rand_score)
+    apply_kmeans(data, 2)
+    apply_kmeans(data, 3)
+    apply_kmeans(data, 4)
+    apply_kmeans(data, 5)
 
 if __name__ == '__main__':
     #deposit_clustering()
