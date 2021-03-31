@@ -1,7 +1,4 @@
 import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-from pandas.plotting import scatter_matrix
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, davies_bouldin_score, adjusted_rand_score
 from kneed import KneeLocator
