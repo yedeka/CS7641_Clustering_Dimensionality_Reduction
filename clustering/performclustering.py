@@ -39,6 +39,6 @@ def income_clustering():
     apply_kmeans(data, 4)
     apply_kmeans(data, 5)
 
-if __name__ == '__main__':
-    #deposit_clustering()
+def clusteringExpt():
+    deposit_clustering()
     income_clustering()
