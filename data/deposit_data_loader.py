@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 def loadBankDataSet():
-    dataset = pd.read_csv("../data/bank.csv");
+    dataset = pd.read_csv("data/bank.csv");
     return dataset
 
 def get_dummy_from_bool(row, column_name):

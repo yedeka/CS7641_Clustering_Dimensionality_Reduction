@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 def loadExploreDS():
-    incomeDF = pd.read_csv("../data/income_evaluation.csv")
+    incomeDF = pd.read_csv("data/income_evaluation.csv")
     return incomeDF
 
 def preprocess_data(incomeDF):

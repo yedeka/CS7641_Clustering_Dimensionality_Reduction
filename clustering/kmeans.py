@@ -22,7 +22,7 @@ def estimate_k(data, label, distance_metric, useIntercluster):
     print(kl.knee)
     plt.style.use('ggplot')
     kl.plot_knee()
-    plt.savefig('../plots/'+label+'_elbow.png')
+    plt.savefig('plots/kmeans/'+label+'/elbow.png')
     plt.clf()
 
     # Since elbow does not give us a clear distinction try to do with Silhoute score
@@ -37,7 +37,7 @@ def estimate_k(data, label, distance_metric, useIntercluster):
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('Silhoute Coefficients')
-    plt.savefig('../plots/'+label+"_Silhouette Coefficient")
+    plt.savefig('plots/kmeans/'+label+'/Silhouette Coefficient')
     plt.clf()
 
     if useIntercluster:
@@ -59,7 +59,7 @@ def estimate_k(data, label, distance_metric, useIntercluster):
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('Davies Bouldin Score')
-    plt.savefig('../plots/' + label + "_DB Score")
+    plt.savefig('plots/kmeans/'+label+'/DB Score')
     plt.clf()
 
 def validate_k(k,data):
