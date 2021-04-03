@@ -1,77 +1,66 @@
 import matplotlib.pyplot as plt
+import time
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, davies_bouldin_score, adjusted_rand_score
-from kneed import KneeLocator
 from yellowbrick.cluster import InterclusterDistance
 
-def estimate_k(data, label, distance_metric, useIntercluster):
+def estimate_k(data, label, distance_metric):
     kmeans_kwargs = {
         "random_state": 42,
     }
-    # Try to determine K using elbow
-    sse = []
-    for k in range(2, 31):
-        kmeans = KMeans(n_clusters=k, **kmeans_kwargs)
-        kmeans.fit(data['features'])
-        sse.append(kmeans.inertia_)
 
-    kl = KneeLocator(
-        range(2, 31), sse, curve="convex", direction="decreasing"
-    )
-    print(kl.elbow)
-    print(kl.knee)
-    plt.style.use('ggplot')
-    kl.plot_knee()
-    plt.savefig('plots/kmeans/'+label+'/elbow.png')
-    plt.clf()
-
-    # Since elbow does not give us a clear distinction try to do with Silhoute score
     silhoute_score = []
+    db_score = []
+    run_times = []
     for k in range(2, 31):
-        kmeans = KMeans(n_clusters=k, **kmeans_kwargs)
+        kmeans = KMeans(n_clusters=k, random_state=42)
+        startTime = time.time()
         kmeans.fit(data['features'])
+        endTime = time.time()
         silhoute_score.append(silhouette_score(data['features'], kmeans.labels_,metric=distance_metric))
+        db_score.append(davies_bouldin_score(data['features'], kmeans.labels_))
+        run_times.append(endTime - startTime)
 
     plt.style.use("fivethirtyeight")
     plt.plot(range(2, 31), silhoute_score)
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('Silhoute Coefficients')
-    plt.savefig('plots/kmeans/'+label+'/Silhouette Coefficient')
+    plt.savefig('plots/kmeans/'+label+'/Silhouette_Coefficient')
     plt.clf()
-
-    if useIntercluster:
-        for k in range(2, 10):
-            model = KMeans(k)
-            visualizer = InterclusterDistance(model)
-            visualizer.fit(data['features'])
-            visualizer.show()
-            plt.clf()
-
-    db_score = []
-    for k in range(2, 31):
-        kmeans = KMeans(n_clusters=k, **kmeans_kwargs)
-        kmeans.fit(data['features'])
-        db_score.append(davies_bouldin_score(data['features'], kmeans.labels_))
 
     plt.style.use("fivethirtyeight")
     plt.plot(range(2, 31), db_score)
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('Davies Bouldin Score')
-    plt.savefig('plots/kmeans/'+label+'/DB Score')
+    plt.savefig('plots/kmeans/'+label+'/DB_Score')
     plt.clf()
 
-def validate_k(k,data):
-    features = data['features']
-    kmeans = KMeans(n_clusters=k)
-    kmeans.fit_predict(features)
-    labels = data['labels']
-    rand_score = adjusted_rand_score(labels, kmeans.labels_)
-    return rand_score
+    plt.style.use("fivethirtyeight")
+    plt.plot(range(2, 31), run_times)
+    plt.xticks(range(2, 31), rotation="90")
+    plt.xlabel("Number of Clusters")
+    plt.ylabel('Run Times')
+    plt.savefig('plots/kmeans/' + label + '/Run_Times')
+    plt.clf()
 
-def apply_kmeans(data, k):
-    model = KMeans(k)
-    visualizer = InterclusterDistance(model)
-    visualizer.fit(data['features'])  # Fit the data to the visualizer
-    visualizer.show()
+def validate_k(data, label):
+    features = data['features']
+    rand_score = []
+    em_kwargs = {
+        "random_state": 42,
+    }
+    for k in range(2, 31):
+        kmeans = KMeans(n_clusters=k, random_state=42)
+        kmeans.fit_predict(features)
+        labels = data['labels']
+        rand_score.append(adjusted_rand_score(labels, kmeans.labels_))
+
+    plt.style.use("fivethirtyeight")
+    plt.plot(range(2, 31), rand_score)
+    plt.xticks(range(2, 31), rotation="90")
+    plt.xlabel("Number of Clusters")
+    plt.ylabel('Adjusted Rand Score')
+    plt.savefig('plots/kmeans/' + label + '/Adj_Rand_Score')
+    plt.clf()
