@@ -16,7 +16,7 @@ def estimate_em_k(data, label, basepath, distance_metric):
         db_score.append(davies_bouldin_score(data['features'], predicted_labels))
         run_times.append(endTime - startTime)
 
-    plt.style.use("fivethirtyeight")
+    plt.style.use("seaborn")
     plt.plot(range(2, 31), silhoute_score)
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
@@ -25,7 +25,7 @@ def estimate_em_k(data, label, basepath, distance_metric):
     #plt.savefig('plots/em/' + label + '/Silhoute_Score')
     plt.clf()
 
-    plt.style.use("fivethirtyeight")
+    plt.style.use("seaborn")
     plt.plot(range(2, 31), db_score)
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
@@ -33,7 +33,7 @@ def estimate_em_k(data, label, basepath, distance_metric):
     plt.savefig(basepath + label + '/Db_Score')
     plt.clf()
 
-    plt.style.use("fivethirtyeight")
+    plt.style.use("seaborn")
     plt.plot(range(2, 31), run_times)
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
@@ -50,7 +50,7 @@ def validate_em_k(data, basepath, label):
         labels = data['labels']
         rand_score.append(adjusted_rand_score(labels, pred_labels))
 
-    plt.style.use("fivethirtyeight")
+    plt.style.use("seaborn")
     plt.plot(range(2, 31), rand_score)
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
