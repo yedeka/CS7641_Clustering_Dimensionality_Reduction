@@ -13,8 +13,6 @@ def perform_pca(features, datasetLabel):
     data = {'variance': data_variance,
             'features': plot_features }
     df = pd.DataFrame(data, columns=['variance', 'features'])
-    print('Dataset', datasetLabel)
-    print(df)
 
     kl = KneeLocator(
         plot_features, data_variance, curve="convex", direction="decreasing"
@@ -22,12 +20,18 @@ def perform_pca(features, datasetLabel):
     print(kl.elbow)
     print(kl.knee)
 
-    ax = plt.gca()
-    df.plot(kind='line', x='features', y='variance', marker='o', ax=ax)
+    kl.plot_knee()
 
+    '''ax = plt.gca()
+    df.plot(kind='line', x='features', y='variance', marker='o', ax=ax)'''
     plt.xlabel('Features')
     plt.ylabel('Variance')
     plt.title('Variance vs features')
     plt.grid(True)
     plt.savefig('plots/dr/'+datasetLabel+'_variance_pca.png')
     plt.clf()
+
+def return_principal_components(data, k):
+    pca = PCA(random_state=120, n_components=k)
+    transformed_data = pca.fit_transform(data['features'])
+    return transformed_data

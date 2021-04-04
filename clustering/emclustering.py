@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from sklearn.mixture import GaussianMixture as GMM
 from sklearn.metrics import silhouette_score, davies_bouldin_score, adjusted_rand_score
 
-def estimate_em_k(data, label, distance_metric):
+def estimate_em_k(data, label, basepath, distance_metric):
     silhoute_score = []
     db_score = []
     run_times = []
@@ -21,7 +21,8 @@ def estimate_em_k(data, label, distance_metric):
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('Silhoute Coefficients')
-    plt.savefig('plots/em/' + label + '/Silhoute_Score')
+    plt.savefig(basepath + label + '/Silhoute_Score')
+    #plt.savefig('plots/em/' + label + '/Silhoute_Score')
     plt.clf()
 
     plt.style.use("fivethirtyeight")
@@ -29,7 +30,7 @@ def estimate_em_k(data, label, distance_metric):
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('David Bouldin Score')
-    plt.savefig('plots/em/' + label + '/Db_Score')
+    plt.savefig(basepath + label + '/Db_Score')
     plt.clf()
 
     plt.style.use("fivethirtyeight")
@@ -37,10 +38,10 @@ def estimate_em_k(data, label, distance_metric):
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('Run time')
-    plt.savefig('plots/em/' + label + '/Run_Time')
+    plt.savefig(basepath + label + '/Run_Time')
     plt.clf()
 
-def validate_em_k(data, label):
+def validate_em_k(data, basepath, label):
     features = data['features']
     rand_score = []
     for k in range(2, 31):
@@ -54,5 +55,5 @@ def validate_em_k(data, label):
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('Adjusted Rand Score')
-    plt.savefig('plots/em/' + label + '/Adj_Rand_Score')
+    plt.savefig(basepath + label + '/Adj_Rand_Score')
     plt.clf()

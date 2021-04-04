@@ -23,8 +23,8 @@ def performDepositRandomProjection():
     randomprojection.apply_rp(data['features'], 10,'Term_Deposit')
 
 def performDR():
-    #performDepositPCA()
-    #performIncomePCA()
+    # performDepositPCA()
+    # performIncomePCA()
     performDepositICA()
     performIncomeICA()
     #performDepositRandomProjection()

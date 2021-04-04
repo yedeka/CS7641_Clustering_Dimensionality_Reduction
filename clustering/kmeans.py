@@ -2,12 +2,8 @@ import matplotlib.pyplot as plt
 import time
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, davies_bouldin_score, adjusted_rand_score
-from yellowbrick.cluster import InterclusterDistance
 
-def estimate_k(data, label, distance_metric):
-    kmeans_kwargs = {
-        "random_state": 42,
-    }
+def estimate_k(data, label, basePath, distance_metric):
 
     silhoute_score = []
     db_score = []
@@ -26,7 +22,8 @@ def estimate_k(data, label, distance_metric):
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('Silhoute Coefficients')
-    plt.savefig('plots/kmeans/'+label+'/Silhouette_Coefficient')
+    plt.savefig(basePath + label + '/Silhouette_Coefficient')
+
     plt.clf()
 
     plt.style.use("fivethirtyeight")
@@ -34,7 +31,7 @@ def estimate_k(data, label, distance_metric):
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('Davies Bouldin Score')
-    plt.savefig('plots/kmeans/'+label+'/DB_Score')
+    plt.savefig(basePath + label + '/DB_Score')
     plt.clf()
 
     plt.style.use("fivethirtyeight")
@@ -42,15 +39,13 @@ def estimate_k(data, label, distance_metric):
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('Run Times')
-    plt.savefig('plots/kmeans/' + label + '/Run_Times')
+    plt.savefig(basePath + label + '/Run_Times')
     plt.clf()
 
-def validate_k(data, label):
+def validate_k(data, basePath, label):
     features = data['features']
     rand_score = []
-    em_kwargs = {
-        "random_state": 42,
-    }
+
     for k in range(2, 31):
         kmeans = KMeans(n_clusters=k, random_state=42)
         kmeans.fit_predict(features)
@@ -62,5 +57,5 @@ def validate_k(data, label):
     plt.xticks(range(2, 31), rotation="90")
     plt.xlabel("Number of Clusters")
     plt.ylabel('Adjusted Rand Score')
-    plt.savefig('plots/kmeans/' + label + '/Adj_Rand_Score')
+    plt.savefig(basePath + label + '/Adj_Rand_Score')
     plt.clf()
