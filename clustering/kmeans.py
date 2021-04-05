@@ -59,3 +59,10 @@ def validate_k(data, basePath, label):
     plt.ylabel('Adjusted Rand Score')
     plt.savefig(basePath + label + '/Adj_Rand_Score')
     plt.clf()
+
+def validate_k_fixed(features, labels,k):
+    features = features
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    kmeans.fit_predict(features)
+    return adjusted_rand_score(labels, kmeans.labels_)
+

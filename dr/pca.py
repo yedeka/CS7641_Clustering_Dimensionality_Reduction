@@ -54,12 +54,6 @@ def validate_pca_nn(data, components, label):
         PCA_fit_time.append(np.mean(scores_pca['fit_time']))
         PCA_accuracy.append(np.mean(scores_pca['test_accuracy']))
 
-    '''PCA_fit_time = [3.665920281410217, 5.589719676971436, 5.739713549613953, 4.759915351867676, 6.604079246520996, 7.830548286437988, 9.33339855670929, 9.744733643531799, 9.080630040168762]
-    PCA_accuracy = [0.6659570405881088, 0.7235447290649878, 0.7669033156528463, 0.7970856075702004, 0.7824843651229132, 0.8005755784663862, 0.790994503325921, 0.7823971659880056, 0.8010241686801886]'''
-
-    print('PCA_fit_time => ',PCA_fit_time)
-    print('PCA_accuracy => ', PCA_accuracy)
-
     plt.style.use("seaborn")
     plt.figure(figsize=(8,8))
     plt.plot(components, PCA_accuracy)

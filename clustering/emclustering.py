@@ -57,3 +57,9 @@ def validate_em_k(data, basepath, label):
     plt.ylabel('Adjusted Rand Score')
     plt.savefig(basepath + label + '/Adj_Rand_Score')
     plt.clf()
+
+def validate_em_k_fixed(features, labels,k):
+    features = features
+    em = GMM(n_components=k, random_state=50)
+    pred_labels = em.fit_predict(features)
+    return adjusted_rand_score(labels, pred_labels)

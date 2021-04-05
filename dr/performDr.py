@@ -1,7 +1,6 @@
 from data.deposit_data_loader import load_cleanse_data
 from data.income_evaluation_loader import loadData
-from dr import pca,ica, randomprojection
-from sklearn.feature_selection import RFE
+from dr import pca,ica, randomprojection, uvfs
 
 def performDepositPCA():
     data = load_cleanse_data()
@@ -25,11 +24,28 @@ def performIncomeICA():
 
 def performDepositRandomProjection():
     data = load_cleanse_data()
-    randomprojection.apply_rp(data['features'], 10,'deposit')
+    randomprojection.apply_rp(data, [7, 10, 15, 20, 25, 30, 35, 40, 41],'deposit',2,3)
+    randomprojection.validate_rp_nn(data, [7, 10, 15, 20, 25, 30, 35, 40, 41],'deposit')
+
+def performIncomeRandomProjection():
+    data = loadData()
+    randomprojection.validate_rp_nn(data, [4, 6, 8, 10, 12, 14],'income')
+
+def performDeposituvfs():
+    data = load_cleanse_data()
+    uvfs.validate_uvfs_nn(data, [7, 10, 15, 20, 25, 30, 35, 40, 41],'deposit')
+
+def performIncomeuvfs():
+    data = loadData()
+    uvfs.validate_uvfs_nn(data, [4, 6, 8, 10, 12, 14],'income')
 
 def performDR():
-    #performDepositPCA()
-    #performIncomePCA()
+    performDepositPCA()
+    performIncomePCA()
     performDepositICA()
     performIncomeICA()
-    # performDepositRandomProjection()
+    performDepositRandomProjection()
+    performIncomeRandomProjection()
+    performDeposituvfs()
+    performIncomeuvfs()
+

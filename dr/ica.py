@@ -39,6 +39,11 @@ def perform_ica(features, datasetLabel, components):
     plt.savefig('plots/dr/ica/' + datasetLabel + '/ica_recon_error.png')
     plt.clf()
 
+def return_independent_components(data, k):
+    ica = FastICA(max_iter=550, random_state=20, whiten=True, n_components=k)
+    transformed_data = ica.fit_transform(data['features'])
+    return transformed_data
+
 def validate_ica_nn(data, components, label):
 
     mlp = MLPClassifier(hidden_layer_sizes=(15, 2), random_state=70, activation='relu', max_iter=500)
